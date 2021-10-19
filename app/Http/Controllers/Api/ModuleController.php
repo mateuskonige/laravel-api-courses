@@ -22,9 +22,9 @@ class ModuleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($course)
+    public function index($courseUuid)
     {
-        $modules = $this->moduleService->getModulesByCourse($course);
+        $modules = $this->moduleService->getModulesByCourse($courseUuid);
 
         return ModuleResource::collection($modules);
     }
@@ -35,9 +35,9 @@ class ModuleController extends Controller
      * @param  \Illuminate\Http\StoreUpdateModule  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUpdateModule $request)
+    public function store(StoreUpdateModule $request, $courseUuid)
     {
-        $module = $this->moduleService->createModule($request->validated());
+        $module = $this->moduleService->createModule($request->validated(), $courseUuid);
 
         return new ModuleResource($module);
     }
@@ -48,9 +48,9 @@ class ModuleController extends Controller
      * @param  string  $identify
      * @return \Illuminate\Http\Response
      */
-    public function show($course, $identify)
+    public function show($courseUuid, $identify)
     {
-        $module = $this->moduleService->getModuleByCourse($course, $identify);
+        $module = $this->moduleService->getModuleByCourse($courseUuid, $identify);
 
         return new ModuleResource($module);
     }
@@ -62,9 +62,9 @@ class ModuleController extends Controller
      * @param  string  $identify
      * @return \Illuminate\Http\Response
      */
-    public function update($identify, StoreUpdateModule $request)
+    public function update(StoreUpdateModule $request, $courseUuid, $identify)
     {
-        $this->moduleService->updateModule($identify, $request->validated());
+        $this->moduleService->updateModule($request->validated(), $courseUuid, $identify);
 
         return response()->json(['message' => 'updated']);
     }
@@ -75,11 +75,10 @@ class ModuleController extends Controller
      * @param  string  $identify
      * @return \Illuminate\Http\Response
      */
-    public function destroy($identify)
+    public function destroy($courseUuid, $identify)
     {
-        $this->moduleService->deleteModule($identify);
+        $this->moduleService->deleteModule($courseUuid, $identify);
 
         return response()->json([], 204);
     }
-
 }
