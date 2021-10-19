@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\{
     CourseController,
+    LessonController,
     ModuleController
 };
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,14 @@ Route::get('/courses', [CourseController::class, 'index']);
  */
 Route::apiResource('/courses/{course}/modules', ModuleController::class);
 
+/**
+ * Rotas para lições
+ */
+Route::apiResource('/modules/{module}/lessons', LessonController::class);
 
+/**
+ * Rota inicial
+ */
 Route::get('/', function() {
     return response()->json(['message' => 'ok']);
 });

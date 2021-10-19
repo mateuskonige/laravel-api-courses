@@ -25,6 +25,11 @@ class ModuleRepository {
         return $this->entity->create($data);
     }
 
+    public function getModuleByUuid(string $identify)
+    {
+        return $this->entity->where('uuid', $identify)->firstOrFail();
+    }
+
     public function getModulebyCourse(string $courseId, string $identify) {
         return $this->entity
                     ->where('course_id', $courseId)
